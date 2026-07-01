@@ -59,18 +59,31 @@ export default function ReportModal({ reporte, onClose }) {
 
         <div className={styles.content}>
           <div className={styles.imageContainer}>
-            {reporte.fotoUrl ? (
-              <motion.img
-                src={reporte.fotoUrl}
-                alt={reporte.titulo}
-                className={styles.image}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.2 }}
-              />
-            ) : (
-              <div className={styles.noImage}>📷 Sin imagen</div>
-            )}
+            {(() => {
+              const fotos = reporte.fotosUrl && reporte.fotosUrl.length > 0
+                ? reporte.fotosUrl
+                : reporte.fotoUrl
+                  ? [reporte.fotoUrl]
+                  : [];
+              return fotos.length > 0 ? (
+                <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                  {fotos.map((url, index) => (
+                    <motion.img
+                      key={index}
+                      src={url}
+                      alt={`${reporte.titulo} - ${index + 1}`}
+                      className={styles.image}
+                      style={{ flex: 1, minWidth: 200, maxWidth: fotos.length > 1 ? 'calc(50% - 4px)' : '100%' }}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.2 + index * 0.1 }}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div className={styles.noImage}>📷 Sin imagen</div>
+              );
+            })()}
           </div>
 
           <div className={styles.details}>
