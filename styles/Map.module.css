@@ -1,0 +1,50 @@
+.map {
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+}
+
+.popup {
+  min-width: 200px;
+}
+
+.popup h3 {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  color: #1a1a2e;
+}
+
+.popupTipo {
+  font-weight: 600;
+  font-size: 0.85rem;
+  margin-bottom: 0.5rem;
+}
+
+.popup p {
+  font-size: 0.85rem;
+  color: #555;
+  margin-bottom: 0.3rem;
+}
+
+.popupLocation {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.popupStatus {
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+}
+
+.status {
+  padding: 2px 8px;
+  border-radius: 4px;
+  color: white;
+  font-size: 0.75rem;
+  text-transform: capitalize;
+}
+
+.pendiente { background: #e74c3c; }
+.en_proceso { background: #f39c12; }
+.terminado { background: #27ae60; }
+.rechazado { background: #95a5a6; }
