@@ -28,6 +28,22 @@ const TIPO_CONFIG = {
   }
 };
 
+const PRIORITY_COLORS = [
+  '#27ae60',  // 0-20 verde
+  '#d4a017',  // 21-40 dorado
+  '#e67e22',  // 41-60 naranja
+  '#e74c3c',  // 61-80 rojo
+  '#c0392b'   // 81-100 rojo oscuro
+];
+
+function getPriorityColor(score) {
+  if (score >= 81) return PRIORITY_COLORS[4];
+  if (score >= 61) return PRIORITY_COLORS[3];
+  if (score >= 41) return PRIORITY_COLORS[2];
+  if (score >= 21) return PRIORITY_COLORS[1];
+  return PRIORITY_COLORS[0];
+}
+
 const createCustomIcon = (tipo) => {
   const config = TIPO_CONFIG[tipo] || TIPO_CONFIG.other;
   return L.divIcon({
@@ -99,9 +115,6 @@ export default function MapComponent({
             key={reporte._id || index}
             position={[coords[1], coords[0]]}
             icon={createCustomIcon(reporte.tipo)}
-            eventHandlers={{
-              click: () => onMarkerClick(reporte)
-            }}
           >
             <Popup>
               <div className={styles.popup}>
@@ -118,6 +131,20 @@ export default function MapComponent({
                     {reporte.estado}
                   </span>
                 </p>
+                <p className={styles.popupPriority}>
+                  Prioridad: <span
+                    className={styles.priorityBadge}
+                    style={{ background: getPriorityColor(reporte.priorityScore || 0) }}
+                  >
+                    {reporte.priorityScore || 0}
+                  </span>
+                </p>
+                <button
+                  className={styles.detailBtn}
+                  onClick={() => onMarkerClick(reporte)}
+                >
+                  Ver detalle
+                </button>
               </div>
             </Popup>
           </Marker>

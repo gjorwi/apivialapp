@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -13,6 +14,13 @@ const Toast = dynamic(() => import('@/components/Toast'), { ssr: false });
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
 
+const TIPO_LABELS = {
+  pothole: 'Baches',
+  traffic_light: 'Semáforos',
+  light: 'Alumbrado',
+  other: 'Otros'
+};
+
 export default function Home() {
   const [reportes, setReportes] = useState([]);
   const [estadisticas, setEstadisticas] = useState(null);
@@ -26,6 +34,7 @@ export default function Home() {
   const [toast, setToast] = useState({ show: false, message: '', type: 'info' });
   const [leftPanelOpen, setLeftPanelOpen] = useState(false);
   const [rightPanelOpen, setRightPanelOpen] = useState(false);
+  const [sortBy, setSortBy] = useState('');
 
   const handleFilterChange = (key, value) => {
     switch (key) {
@@ -54,12 +63,15 @@ export default function Home() {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [sortBy]);
 
   const fetchData = async () => {
     try {
+      const reportesUrl = sortBy
+        ? `${API_URL}/api/v1/reportes?sortBy=${sortBy}`
+        : `${API_URL}/api/v1/reportes`;
       const [reportesRes, estadisticasRes] = await Promise.all([
-        fetch(`${API_URL}/api/v1/reportes`),
+        fetch(reportesUrl),
         fetch(`${API_URL}/api/v1/dashboard/estadisticas`)
       ]);
 
@@ -122,6 +134,25 @@ export default function Home() {
             VialActivo
           </motion.h1>
           <span className={styles.subtitle}>Panel de Control y Estadísticas</span>
+          <div className={styles.sortControl}>
+            <label className={styles.sortLabel}>Ordenar:</label>
+            <select
+              className={styles.sortSelect}
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+            >
+              <option value="">Por defecto</option>
+              <option value="priority">Prioridad ↓</option>
+              <option value="fecha_desc">Fecha ↓</option>
+              <option value="fecha_asc">Fecha ↑</option>
+            </select>
+          </div>
+          <Link href="/reporte" className={styles.brochureBtn}>
+            Reporte
+          </Link>
+          <Link href="/brochure" className={styles.brochureBtn}>
+            Brochure
+          </Link>
         </header>
 
         <div className={`${styles.panelOverlay} ${(leftPanelOpen || rightPanelOpen) ? styles.open : ''}`} onClick={() => { setLeftPanelOpen(false); setRightPanelOpen(false); }} />
@@ -160,7 +191,7 @@ export default function Home() {
               <button className={styles.closeBtn} onClick={() => setRightPanelOpen(false)}>✕</button>
             </div>
             <div className={styles.statsSection}>
-              <StatsPanel estadisticas={estadisticas} onItemClick={(tipo) => showToast(`Ver detalles de ${tipo}`, 'info')} />
+              <StatsPanel estadisticas={estadisticas} onItemClick={(tipo) => { handleFilterChange('tipo', tipo); showToast(`Filtrando: ${TIPO_LABELS[tipo] || tipo}`, 'info'); setLeftPanelOpen(false); }} />
             </div>
             <MunicipalityPanel estadisticas={estadisticas} />
           </aside>

@@ -48,3 +48,34 @@
 .en_proceso { background: #f39c12; }
 .terminado { background: #27ae60; }
 .rechazado { background: #95a5a6; }
+
+.popupPriority {
+  margin-top: 0.3rem;
+  font-size: 0.8rem;
+}
+
+.priorityBadge {
+  padding: 2px 8px;
+  border-radius: 4px;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.detailBtn {
+  width: 100%;
+  margin-top: 8px;
+  padding: 6px 12px;
+  background: #27a0a3;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.detailBtn:hover {
+  background: #1e7e80;
+}

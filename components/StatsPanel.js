@@ -88,7 +88,7 @@ export default function StatsPanel({ estadisticas, onItemClick }) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
               whileHover={{ y: -5, boxShadow: `0 10px 30px ${item.color}40` }}
-              onClick={() => onItemClick(item.label)}
+              onClick={() => onItemClick(item.tipo)}
             >
               <div className={styles.cardIcon}>
                 {item.tipo === 'pothole' && '🕳️'}

@@ -128,12 +128,13 @@
 
 .detailRow {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 1rem;
 }
 
 .estadoBadge,
-.nivelBadge {
+.nivelBadge,
+.priorityBadge {
   display: inline-block;
   padding: 0.35rem 0.75rem;
   border-radius: 6px;
@@ -141,6 +142,11 @@
   font-size: 0.8rem;
   font-weight: 600;
   text-transform: capitalize;
+}
+
+.priorityBadge {
+  text-align: center;
+  min-width: 36px;
 }
 
 .nivelBadge.alto { background: #e74c3c; }

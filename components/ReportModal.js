@@ -22,6 +22,22 @@ const ESTADO_COLORS = {
   rechazado: '#95a5a6'
 };
 
+const PRIORITY_COLORS = [
+  '#27ae60',  // 0-20 verde
+  '#d4a017',  // 21-40 dorado
+  '#e67e22',  // 41-60 naranja
+  '#e74c3c',  // 61-80 rojo
+  '#c0392b'   // 81-100 rojo oscuro
+];
+
+function getPriorityColor(score) {
+  if (score >= 81) return PRIORITY_COLORS[4];
+  if (score >= 61) return PRIORITY_COLORS[3];
+  if (score >= 41) return PRIORITY_COLORS[2];
+  if (score >= 21) return PRIORITY_COLORS[1];
+  return PRIORITY_COLORS[0];
+}
+
 export default function ReportModal({ reporte, onClose }) {
   if (!reporte) return null;
 
@@ -107,6 +123,16 @@ export default function ReportModal({ reporte, onClose }) {
                 <label className={styles.label}>Nivel</label>
                 <span className={`${styles.nivelBadge} ${styles[reporte.nivel]}`}>
                   {reporte.nivel}
+                </span>
+              </div>
+
+              <div className={styles.detailGroup}>
+                <label className={styles.label}>Prioridad</label>
+                <span
+                  className={styles.priorityBadge}
+                  style={{ background: getPriorityColor(reporte.priorityScore || 0) }}
+                >
+                  {reporte.priorityScore || 0}
                 </span>
               </div>
             </div>
